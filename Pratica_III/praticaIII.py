@@ -4,7 +4,8 @@ from PIL import Image
 
 def PSNR(ori, dec):
     import math
-    return math.log10(pow(pow(2, 8) - 1, 2) / MSE(ori, dec))
+    mse = MSE(ori, dec)
+    return math.log10(pow(pow(2, 8) - 1, 2) / mse) if mse != 0 else 'Infinite'
 
 
 def MSE(ori, dec):
@@ -46,10 +47,14 @@ if __name__ == "__main__":
     # cuif2.saveBMP('mandril1.bmp')
     #cuif2.show()
 
-    ori = Image.open("mandril.bmp")
-    dec = Image.open("mandril1.bmp")
+    ori_file = 'mandril.bmp'
+    dec_file = 'mandril1.bmp'
 
-    result = PSNR(ori, dec)
+    ori = Image.open(ori_file)
+    dec = Image.open(dec_file)
+
+    diff = PSNR(ori, dec)
+
+    print('PSNR between ' + ori_file + ' and ' + dec_file + ' is: ' + str(diff))
     
     print("THE END")
-
